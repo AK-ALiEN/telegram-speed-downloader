@@ -1,0 +1,262 @@
+Telegram Speed Downloader Bot
+=============================
+
+Speed Downloader Bot is a high-performance Telegram bot designed for fast file
+downloads from Telegram messages. Built with Pyrogram/Hydrogram, it features
+optimized concurrent transmissions and a comprehensive file management system
+with an intuitive keyboard-based interface.
+
+
+Quick start
+-----------
+
+Report a bug: See Documentation/reporting-issues.rst
+Join the community: https://t.me/aliendevlab
+
+
+What it does
+------------
+
+Speed Downloader Bot listens for incoming files, videos, and audio messages on
+Telegram and downloads them instantly to a local directory. It provides a full
+set of file management tools through an interactive button menu.
+
+Supported media types:
+
+* Documents (any file type)
+* Videos (MP4, MKV, AVI, etc.)
+* Audio files (MP3, FLAC, WAV, etc.)
+
+The bot also includes:
+
+* Persistent keyboard menu for easy navigation
+* File listing with size information
+* Selective deletion (files only or everything)
+* File organization (move to dated folders)
+* Storage status monitoring
+
+
+Why it exists
+-------------
+
+Manually downloading files from Telegram using a desktop client is slow and
+lacks automation. Many users need a dedicated bot that:
+
+* Downloads files without size limitations (unlike web clients)
+* Maintains an organized local archive
+* Provides batch file management capabilities
+* Runs unattended on a server or VPS
+
+Speed Downloader Bot exists to solve these problems with a focus on speed,
+reliability, and ease of use.
+
+
+Core features
+-------------
+
+* High-speed downloads – Configurable concurrent transmissions (default: 12)
+* Persistent keyboard menu – All actions available via buttons
+* File listing – View all downloaded files with human-readable sizes
+* Selective deletion – Delete files only OR delete everything (including folders)
+* Batch move – Organize files into auto-named dated folders
+* Storage status – Total files, folders, size, and free disk space
+* Multi-format support – Documents, videos, audio files
+* Error handling – Graceful fallbacks for permission issues
+* Session persistence – Bot resumes downloads after restart
+
+
+System requirements
+-------------------
+
+* Python 3.8 or higher (3.14 recommended)
+* Telegram API credentials (API ID, API Hash, Bot Token)
+* Sufficient disk space for downloaded content
+* Internet connection (for Telegram API)
+
+Python dependencies:
+* hydrogram (Pyrogram-based)
+* No other external libraries required
+
+
+Installation
+------------
+
+1. Clone the repository:
+   git clone https://github.com/AK-ALiEN/telegram-speed-downloader.git
+   cd telegram-speed-downloader
+
+2. Install dependencies:
+   pip install -r requirements.txt
+
+3. Run the bot for the first time:
+   python main.py
+
+4. Enter your Telegram credentials when prompted:
+   * API_ID (from my.telegram.org)
+   * API_HASH (from my.telegram.org)
+   * BOT_TOKEN (from @BotFather)
+   * DOWNLOAD_DIR (optional, defaults to ./downloads/)
+
+5. Configuration is saved to config.json for future runs.
+
+
+How to use
+----------
+
+Start the bot on Telegram with /start command.
+
+The main menu provides these buttons:
+
+📁 View Files        – List all downloaded files and folders
+🗑️ Delete Files      – Show delete options submenu
+📦 Move Files        – Move all files to a dated folder (YYYY-MM-DD_HH-MM-SS)
+ℹ️ Status           – Show storage usage and bot status
+❌ Delete All       – Emergency delete of everything
+
+Delete submenu:
+* Delete Files Only – Remove files, keep folders
+* Delete All (Including Folders) – Complete wipe
+* Back to Main Menu
+
+To download a file:
+1. Simply send any document, video, or audio to the bot
+2. The bot will acknowledge and start downloading immediately
+3. Upon completion, it reports the save location and total time
+
+
+Configuration
+-------------
+
+The bot creates a config.json file on first run:
+
+{
+    "API_ID": 123456,
+    "API_HASH": "your_api_hash_here",
+    "BOT_TOKEN": "your_bot_token_here",
+    "DOWNLOAD_DIR": "./downloads/"
+}
+
+You can edit this file directly to change settings without re-prompting.
+
+Performance tuning (in main.py):
+* max_concurrent_transmissions – Parallel downloads (default: 12)
+* workers – Thread pool size (default: 20)
+
+
+File management details
+-----------------------
+
+Download directory structure:
+downloads/
+├── file1.pdf
+├── video.mp4
+├── 2025-01-15_14-30-22/    (created by Move Files)
+│   ├── old_file.zip
+│   └── another.doc
+└── 2025-01-16_09-15-45/    (another move operation)
+
+The bot excludes its own session files from deletion and move operations to
+prevent interruption of service.
+
+
+Design philosophy
+-----------------
+
+Speed Downloader Bot follows a few simple rules:
+
+* Do one job well – download and manage Telegram files
+* Keep the interface simple – buttons over commands
+* Prioritize speed over fancy features
+* Stay self-contained – no external databases
+* Handle errors gracefully – never crash on permission issues
+
+
+Limitations
+-----------
+
+* Telegram bot API limits file size to 2GB (server limitation)
+* Requires constant internet connection
+* No built-in file preview or streaming
+* No support for forwarded messages with multiple media
+* Session files must be preserved for uninterrupted operation
+
+
+Troubleshooting
+---------------
+
+Bot asks for credentials every time?
+→ Check that config.json is writable and in the same directory.
+
+Download stuck or very slow?
+→ Reduce max_concurrent_transmissions to 4-6 if on limited bandwidth.
+
+Permission errors when deleting/moving?
+→ Ensure the bot has write permissions for DOWNLOAD_DIR.
+
+Bot doesn't respond to buttons?
+→ Start a new conversation with /start to reset the menu state.
+
+Session expired errors?
+→ Delete the .session files and restart. New login will be required.
+
+
+Security & Responsibility
+-------------------------
+
+This bot is intended for:
+
+* Personal file backup and organization
+* Automated downloading from your own Telegram channels
+* Legitimate file management tasks
+
+Security notes:
+
+* API credentials are stored in plain text JSON – protect this file
+* The bot does not share or transmit your files anywhere
+* All processing happens locally on your machine
+
+You are responsible for:
+
+* The security of your API credentials
+* Compliance with Telegram Terms of Service
+* Files you choose to download
+
+Do not use this bot for downloading copyrighted or unauthorized content.
+
+
+Commands reference
+------------------
+
+/start      – Initialize bot and show main menu
+(No other commands – everything is button-driven)
+
+
+Contributing
+------------
+
+Contributions are welcome.
+
+If you want to improve extraction logic, performance, or add features:
+
+* Fork the repository
+* Make changes
+* Submit a pull request
+
+Keep changes minimal and focused.
+
+
+Contact
+-------
+
+Developer: https://t.me/ak_xlien
+
+
+Final notes
+-----------
+
+Speed Downloader Bot is built for utility, not complexity.
+
+If it saves you time downloading and organizing Telegram files, it has done
+its job.
+
+Remember: The bot only downloads files – it cannot upload or share them.
