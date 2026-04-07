@@ -1,2 +1,2 @@
-hydrogram>=2.0.0
-aiofiles>=23.0.0
+hydrogram
+aiofiles
